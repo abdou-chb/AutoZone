@@ -1,0 +1,16 @@
+{
+  "name": "golf-model-build",
+  "private": true,
+  "type": "module",
+  "description": "Rebuilds public/models/golf.glb from the Sketchfab source. Not part of the app bundle.",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@gltf-transform/core": "^4.5.1",
+    "@gltf-transform/extensions": "^4.5.1",
+    "@gltf-transform/functions": "^4.5.1",
+    "meshoptimizer": "^0.22.0",
+    "sharp": "^0.34.0"
+  }
+}

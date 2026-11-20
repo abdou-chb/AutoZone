@@ -1,0 +1,578 @@
+/* Request scene: a night showroom whatever the site theme, so the headlights carry the picture. The form is dark
+   glass in the middle, over the fog; on phones it is a sheet under the cars. */
+
+.tz-req {
+  --req-ink: #f3f3f1;
+  --req-muted: #a6a7ad;
+  --req-line: rgb(255 255 255 / 14%);
+  --req-glass: rgb(11 12 15 / 58%);
+  --req-field: rgb(255 255 255 / 6%);
+  --req-error: #ff8f8a;
+  --req-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  overflow: hidden;
+  background: #040506;
+  color: var(--req-ink);
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.tz-req__stage {
+  position: absolute;
+  inset: 0;
+}
+
+.tz-request__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tz-req__close {
+  position: absolute;
+  inset-block-start: calc(var(--space-4) + env(safe-area-inset-top, 0px));
+  inset-inline-start: var(--space-4);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-inline: var(--space-3) var(--space-4);
+  border: 1px solid var(--req-line);
+  border-radius: var(--radius-pill);
+  background: rgb(8 9 11 / 50%);
+  backdrop-filter: blur(14px);
+  color: var(--req-ink);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.tz-req__close:hover {
+  border-color: rgb(255 255 255 / 40%);
+  background: rgb(20 21 24 / 60%);
+}
+
+.tz-req__loading {
+  position: absolute;
+  inset-block-end: 12vh;
+  inset-inline: 0;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  color: var(--req-muted);
+  font-size: var(--text-sm);
+  letter-spacing: 0.04em;
+}
+
+.tz-req__loading-bar {
+  position: relative;
+  width: 140px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--req-line);
+}
+
+.tz-req__loading-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: var(--req-ink);
+  animation: tz-req-loading 1.2s ease-in-out infinite;
+}
+
+@keyframes tz-req-loading {
+  from {
+    translate: -100% 0;
+  }
+
+  to {
+    translate: 250% 0;
+  }
+}
+
+/* The form */
+
+.tz-req__panel {
+  position: absolute;
+  inset-block-start: clamp(64px, 9vh, 104px);
+  inset-inline-start: 50%;
+  z-index: 1;
+  width: min(600px, calc(100vw - 2 * var(--space-4)));
+  max-height: calc(100svh - clamp(64px, 9vh, 104px) - 20vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-5) var(--space-6) var(--space-4);
+  border: 1px solid var(--req-line);
+  border-radius: 22px;
+  background: var(--req-glass);
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:
+    0 30px 80px rgb(0 0 0 / 45%),
+    inset 0 1px 0 rgb(255 255 255 / 8%);
+  translate: -50% 0;
+  scrollbar-width: thin;
+  animation: tz-req-in 1s var(--req-ease) both;
+}
+
+[dir="rtl"] .tz-req__panel {
+  translate: 50% 0;
+}
+
+.tz-req__panel[hidden] {
+  display: none;
+}
+
+@keyframes tz-req-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(18px) scale(0.985);
+  }
+}
+
+.tz-req__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.1;
+  outline: none;
+}
+
+.tz-req__lead {
+  margin: var(--space-2) 0 var(--space-4);
+  color: var(--req-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.tz-req-form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* The car and its configuration, folded */
+
+.tz-req-car {
+  border: 1px solid var(--req-line);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 4%);
+}
+
+.tz-req-car summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-3);
+  min-height: 44px;
+  padding: var(--space-3) var(--space-4);
+  cursor: pointer;
+  list-style: none;
+}
+
+.tz-req-car summary::-webkit-details-marker {
+  display: none;
+}
+
+.tz-req-car summary:focus-visible {
+  border-radius: 14px;
+  outline: 2px solid var(--req-ink);
+  outline-offset: 2px;
+}
+
+.tz-req-car__name {
+  font-weight: 700;
+}
+
+.tz-req-car__name::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-inline-end: var(--space-2);
+  border-block-end: 2px solid currentcolor;
+  border-inline-end: 2px solid currentcolor;
+  rotate: -45deg;
+  transition: rotate 0.25s ease;
+  vertical-align: 2px;
+}
+
+[dir="rtl"] .tz-req-car__name::before {
+  rotate: 45deg;
+}
+
+.tz-req-car[open] .tz-req-car__name::before {
+  rotate: 45deg;
+}
+
+[dir="rtl"] .tz-req-car[open] .tz-req-car__name::before {
+  rotate: 135deg;
+}
+
+.tz-req-car__price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  color: var(--req-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-req-car__price strong {
+  color: var(--req-ink);
+  font-size: var(--text-md);
+}
+
+.tz-req-car__lines {
+  display: grid;
+  gap: var(--space-1);
+  padding: 0 var(--space-4) var(--space-3);
+  color: var(--req-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-req-car__lines p {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.tz-req-car__lines .tz-req-car__note {
+  margin-block-start: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+/* Fields */
+
+.tz-req-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-4);
+}
+
+.tz-req-grid > :last-child {
+  grid-column: 1 / -1;
+}
+
+.tz-req-field {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.tz-req-field__label {
+  color: #d4d4d8;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.tz-req-field input,
+.tz-req-field select,
+.tz-req-field textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--req-line);
+  border-radius: 12px;
+  background: var(--req-field);
+  color: var(--req-ink);
+  font: inherit;
+  font-size: var(--text-md);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.tz-req-field textarea {
+  min-height: 64px;
+  padding-block: var(--space-2);
+  resize: vertical;
+}
+
+.tz-req-field select {
+  appearance: none;
+  padding-inline-end: var(--space-8);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%23d4d4d8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 6 4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 14px center;
+  background-repeat: no-repeat;
+}
+
+[dir="rtl"] .tz-req-field select {
+  background-position: left 14px center;
+}
+
+.tz-req-field select option {
+  background: #121317;
+  color: var(--req-ink);
+}
+
+.tz-req-field input::placeholder,
+.tz-req-field textarea::placeholder {
+  color: #7d7e85;
+}
+
+.tz-req-field input:hover,
+.tz-req-field select:hover,
+.tz-req-field textarea:hover {
+  border-color: rgb(255 255 255 / 28%);
+}
+
+.tz-req-field input:focus-visible,
+.tz-req-field select:focus-visible,
+.tz-req-field textarea:focus-visible {
+  border-color: var(--req-ink);
+  background: rgb(255 255 255 / 9%);
+  box-shadow: 0 0 0 3px rgb(255 255 255 / 16%);
+  outline: none;
+}
+
+.tz-req-field.is-invalid input,
+.tz-req-field.is-invalid select,
+.tz-req-field.is-invalid textarea {
+  border-color: var(--req-error);
+}
+
+.tz-req-field__hint,
+.tz-req-field__error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--req-muted);
+  font-size: var(--text-xs);
+  line-height: 1.4;
+}
+
+.tz-req-field__error {
+  color: var(--req-error);
+  font-weight: 600;
+}
+
+.tz-req-field__error svg {
+  flex: none;
+}
+
+.tz-req-failure {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-3);
+  border: 1px solid rgb(255 143 138 / 40%);
+  border-radius: 12px;
+  background: rgb(255 143 138 / 10%);
+  color: var(--req-error);
+  font-size: var(--text-sm);
+}
+
+/* Actions */
+
+.tz-req-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.tz-req-submit,
+.tz-req-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 50px;
+  padding-inline: var(--space-5);
+  border-radius: var(--radius-pill);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.3s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.tz-req-submit {
+  flex: 1 1 220px;
+  border: 0;
+  background: #f4f4f2;
+  color: #0b0b0c;
+}
+
+.tz-req-submit:hover {
+  background: #fff;
+  box-shadow: 0 0 28px rgb(255 255 255 / 25%);
+}
+
+.tz-req-submit:active {
+  transform: scale(0.99);
+}
+
+.tz-req-submit:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.tz-req-quiet {
+  border: 1px solid var(--req-line);
+  background: transparent;
+  color: var(--req-ink);
+}
+
+.tz-req-quiet:hover {
+  border-color: rgb(255 255 255 / 40%);
+}
+
+.tz-req-submit:focus-visible,
+.tz-req-quiet:focus-visible,
+.tz-req__close:focus-visible,
+.tz-req-copy:focus-visible {
+  outline: 2px solid var(--req-ink);
+  outline-offset: 3px;
+}
+
+.tz-req-spin {
+  animation: tz-req-spin 0.9s linear infinite;
+}
+
+@keyframes tz-req-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+.tz-req-privacy {
+  margin: calc(-1 * var(--space-1)) 0 0;
+  color: var(--req-muted);
+  font-size: var(--text-xs);
+}
+
+/* Sent */
+
+.tz-req-sent {
+  display: grid;
+  gap: var(--space-3);
+  margin-block-start: var(--space-3);
+  animation: tz-req-in 0.7s var(--req-ease) both;
+}
+
+.tz-req-sent__icon {
+  color: #7ee2a8;
+}
+
+.tz-req-sent__reference {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2) var(--space-3);
+  margin: 0;
+  color: var(--req-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-req-sent__reference strong {
+  color: var(--req-ink);
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.02em;
+}
+
+.tz-req-copy {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--req-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--req-ink);
+  cursor: pointer;
+}
+
+.tz-req-copied {
+  color: #7ee2a8;
+  font-size: var(--text-xs);
+}
+
+.tz-req-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  justify-self: start;
+  margin: 0;
+  padding: 6px var(--space-3);
+  border: 1px solid rgb(255 196 87 / 45%);
+  border-radius: var(--radius-pill);
+  background: rgb(255 196 87 / 10%);
+  color: #ffd27a;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.tz-req-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentcolor;
+  animation: tz-req-pulse 1.6s ease-in-out infinite alternate;
+}
+
+@keyframes tz-req-pulse {
+  to {
+    opacity: 0.35;
+  }
+}
+
+.tz-req-sent__text {
+  margin: 0;
+  color: var(--req-muted);
+  line-height: 1.55;
+}
+
+/* Phones: the cars at the top, the form in a sheet under them. */
+
+@media (max-width: 860px) {
+  .tz-req__panel {
+    inset-block: auto calc(var(--space-3) + env(safe-area-inset-bottom, 0px));
+    inset-inline: var(--space-3);
+    width: auto;
+    max-height: 60svh;
+    padding: var(--space-4);
+    border-radius: 20px;
+    translate: none;
+  }
+
+  [dir="rtl"] .tz-req__panel {
+    translate: none;
+  }
+
+  .tz-req__lead {
+    margin-block-end: var(--space-3);
+  }
+
+  .tz-req-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tz-req__close span {
+    display: none;
+  }
+
+  .tz-req__close {
+    padding-inline: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-req__panel,
+  .tz-req-sent,
+  .tz-req-status__dot,
+  .tz-req__loading-bar::after,
+  .tz-req-spin {
+    animation: none;
+  }
+}

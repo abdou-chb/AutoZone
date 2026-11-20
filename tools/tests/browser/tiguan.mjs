@@ -1,0 +1,43 @@
+import { launch, HOOK } from "./cdp.mjs";
+const b = await launch(); await b.size(1440, 900);
+await b.goto("http://localhost:5173/tuning?lang=en");
+await b.waitFor(`document.querySelector(".tz-canvas canvas") && !document.querySelector(".tz-loader")`);
+await b.sleep(1500); await b.eval(HOOK);
+const S = (js) => b.eval(js);
+const settle = async () => { await b.sleep(300); for (let i = 0; i < 300; i++) { if (!(await S(`document.querySelector(".tz").classList.contains("is-swapping")`))) return; await b.sleep(150); } };
+const pick = async (i) => { await S(`document.querySelector(".tz-garage__current").click()`); await b.sleep(300); await S(`document.querySelectorAll(".tz-car")[${i}].click()`); await settle(); await b.sleep(800); };
+const res = []; const check = (n, ok, i = "") => { res.push(ok); console.log(ok ? "PASS" : "FAIL", n, i); };
+const scene = (js) => S(`(() => { const s = window.__tz.getState(); return ${js}; })()`);
+const stepTo = async (label) => { await S(`[...document.querySelectorAll(".tz-step")].find((x) => x.textContent.includes(${JSON.stringify(label)})).click()`); await b.sleep(2800); };
+await pick(3);
+await stepTo("Interior");
+const door = await scene(`(() => { let d; s.scene.traverse((o) => { if (o.name === "EXT_DOOR_FL") d = o; }); return d ? +d.quaternion.y.toFixed(3) : null; })()`);
+check("Tiguan door opens on the seats view", door !== null && door < -0.3, String(door));
+const frame = { x: 2.163 / 2.099, y: 1.677 / 1.492, z: 4.694 / 4.3 };
+const n = await S(`document.querySelectorAll(".tz-section.is-active .tz-view").length`);
+let inside = 0; const cams = [];
+for (let i = 1; i < n; i++) {
+  await S(`document.querySelectorAll(".tz-section.is-active .tz-view")[${i}].click()`); await b.sleep(2800);
+  const p = await scene(`s.camera.position.toArray()`);
+  const g = [p[0] / frame.x, p[1] / frame.y, p[2] / frame.z];
+  cams.push(g.map((v) => +v.toFixed(2)));
+  if (Math.abs(g[0]) < 0.8 && g[1] < 1.42 && Math.abs(g[2]) < 1.05) inside++;
+  await b.shot(`tig-cabin-${i}.jpg`);
+}
+check("Tiguan cabin views stay in the cabin", inside === n - 1, `${inside}/${n - 1} ${JSON.stringify(cams)}`);
+await stepTo("Paint"); await b.sleep(1500);
+const door2 = await scene(`(() => { let d; s.scene.traverse((o) => { if (o.name === "EXT_DOOR_FL") d = o; }); return +d.quaternion.y.toFixed(3); })()`);
+check("Tiguan door closes outside", door2 > -0.06, String(door2));
+// Lights on the RS 6
+await pick(1);
+await stepTo("Glass");
+const glow = () => scene(`(() => { let e = 0; s.scene.traverse((m) => { const mats = [m.material].flat(); mats.forEach((x) => { if (x?.name?.startsWith?.("Headlight LED")) e = Math.max(e, x.emissiveIntensity * (x.emissive.r + x.emissive.g + x.emissive.b)); }); }); return +e.toFixed(3); })()`);
+const g0 = await glow();
+await S(`document.querySelectorAll(".tz-section.is-active .tz-component")[0].click()`); await b.sleep(2200);
+await S(`(() => { const r = [...document.querySelectorAll('.tz-section.is-active input[name="frontLights"]')]; r.find((x) => x.value === "low").click(); })()`); await b.sleep(1500);
+const g1 = await glow();
+check("RS 6 front lights switch on", g1 > g0, `${g0} -> ${g1}`);
+await b.shot(`rs6-lights.jpg`);
+check("no console errors", b.errors.length === 0, JSON.stringify(b.errors).slice(0, 300));
+console.log(`${res.filter(Boolean).length}/${res.length} PASS`);
+await b.close();

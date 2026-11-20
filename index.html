@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Buy and sell used cars in Algeria. Every listing is reviewed, and any car can be inspected with you before you pay."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      (function () {
+        var root = document.documentElement;
+        var theme = "light";
+        var lang = "en";
+        try {
+          var storedTheme = localStorage.getItem("autozone:theme");
+          var storedLang = localStorage.getItem("autozone:lang");
+          var urlLang = new URLSearchParams(location.search).get("lang");
+          var site = {};
+          try {
+            site = JSON.parse(localStorage.getItem("autozone:site")).data.defaults || {};
+          } catch (error) {}
+          if (storedTheme === "dark" || storedTheme === "light") theme = storedTheme;
+          else if (site.theme === "dark") theme = "dark";
+          if (/^(en|fr|ar)$/.test(urlLang)) lang = urlLang;
+          else if (/^(en|fr|ar)$/.test(storedLang)) lang = storedLang;
+          else if (/^(en|fr|ar)$/.test(site.language)) lang = site.language;
+        } catch (error) {}
+        root.dataset.theme = theme;
+        root.lang = lang;
+        root.dir = lang === "ar" ? "rtl" : "ltr";
+        document.querySelector('meta[name="theme-color"]').content = theme === "dark" ? "#121619" : "#ffffff";
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600;700&family=Cairo:wght@600;700&family=Tajawal:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>AutoZone | Used cars in Algeria</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

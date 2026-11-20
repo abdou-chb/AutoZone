@@ -1,0 +1,50 @@
+.notfound-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notfound {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 34rem;
+  padding-block: var(--space-7);
+  text-align: center;
+}
+
+.notfound__sign {
+  width: 112px;
+  height: 112px;
+  margin-bottom: var(--space-3);
+}
+
+.notfound__sign-plate {
+  fill: var(--signal);
+  stroke: var(--ink);
+  stroke-width: 3;
+}
+
+.notfound__sign-mark {
+  fill: var(--signal-ink);
+}
+
+.notfound h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  line-height: 1.05;
+}
+
+.notfound p {
+  font-size: var(--text-lg);
+  color: var(--muted);
+}
+
+.notfound__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}

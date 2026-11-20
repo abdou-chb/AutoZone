@@ -1,0 +1,52 @@
+export default {
+  loading: "Loading…",
+  optional: "(optional)",
+  money: {
+    price: "{amount} DA",
+    millions: { other: "{amount} millions" },
+    billions: { one: "{amount} milliard", other: "{amount} milliards" },
+  },
+  units: { km: "{value} km" },
+  condition: { New: "New", Used: "Used" },
+  status: {
+    listing: { pending: "To review", approved: "Live", rejected: "Rejected", sold: "Sold" },
+    inspection: {
+      pending: "Received",
+      scheduled: "Scheduled",
+      confirmed: "Confirmed",
+      completed: "Completed",
+      cancelled: "Cancelled",
+    },
+  },
+  actions: {
+    tryAgain: "Try again",
+    retry: "Retry",
+    clearFilters: "Clear filters",
+    clearAll: "Clear all",
+    close: "Close",
+    cancel: "Cancel",
+    back: "Back",
+    seeAll: "See all",
+  },
+  pagination: {
+    label: "Pages",
+    previous: "Previous",
+    next: "Next",
+    previousPage: "Previous page",
+    nextPage: "Next page",
+    page: "Page {page}",
+  },
+  card: {
+    noPhoto: "No photo",
+    new: "New",
+    electric: "Electric",
+    save: "Save {name}",
+    unsave: "Remove {name} from saved vehicles",
+    saved: "Saved to your list",
+    removed: "Removed from your list",
+  },
+  errors: {
+    offline: "We can't reach AutoZone right now. Check your connection and try again.",
+    generic: "Something went wrong. Try again.",
+  },
+};

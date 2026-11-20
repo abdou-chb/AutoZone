@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Showroom model preview (build check, not part of the site)</title>
+    <style>
+      html, body { margin: 0; background: #e9e9e7; }
+      canvas { display: block; }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from "/node_modules/three/build/three.module.js";
+      import { GLTFLoader } from "/node_modules/three/examples/jsm/loaders/GLTFLoader.js";
+      import { RoomEnvironment } from "/node_modules/three/examples/jsm/environments/RoomEnvironment.js";
+      import { MeshoptDecoder } from "/node_modules/three/examples/jsm/libs/meshopt_decoder.module.js";
+
+      const params = new URLSearchParams(location.search);
+      const id = params.get("car");
+      const tint = params.get("tint") === "1";
+      const view = params.get("view") || "front";
+      const thumb = params.get("thumb") === "1";
+      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: thumb, preserveDrawingBuffer: true });
+      renderer.setSize(innerWidth, innerHeight);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      document.body.append(renderer.domElement);
+      const scene = new THREE.Scene();
+      if (!thumb) scene.background = new THREE.Color("#e9e9e7");
+      scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+      const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 0.05, 100);
+      const views = { front: [5.6, 1.7, -6.4], rear: [-5.6, 1.9, 6.4], side: [8.5, 1.2, 0], top: [0.01, 9, 0.01] };
+      camera.position.set(...views[view]);
+      camera.lookAt(0, 0.6, 0);
+      const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
+      loader.load(`/public/models/${id}.glb`, (gltf) => {
+        const car = gltf.scene;
+        if (id === "golf") car.rotation.y = 0;
+        const report = { meshes: 0, paint: 0, wheels: [], brakes: [] };
+        car.traverse((o) => {
+          if (/^WHEEL_|^ALUMINUM_19_|^JEREZ_19_/.test(o.name) && !o.isMesh) report.wheels.push(o.name);
+          if (/^BRAKE_/.test(o.name) && !o.isMesh) report.brakes.push(o.name);
+          if (!o.isMesh) return;
+          report.meshes += 1;
+          const name = o.material.name || "";
+          if (/^Body Paint|^Gris Ascot|^Rojo Kings/.test(name)) report.paint += 1;
+          if (!tint) return;
+          let p = o; let colour = null;
+          while (p) { if (/^WHEEL_/.test(p.name)) colour = "#00d5ff"; if (/^BRAKE_/.test(p.name)) colour = "#ffd400"; p = p.parent; }
+          if (/^Body Paint|^Gris Ascot/.test(name) || (params.get("paint") && new RegExp(params.get("paint")).test(name))) colour = "#ff00c8";
+          if (colour) o.material = new THREE.MeshStandardMaterial({ color: colour, roughness: 0.5 });
+        });
+        scene.add(car);
+        if (thumb) {
+          const box = new THREE.Box3().setFromObject(car);
+          const centre = box.getCenter(new THREE.Vector3());
+          car.position.sub(new THREE.Vector3(centre.x, box.min.y, centre.z));
+          const size = box.getSize(new THREE.Vector3());
+          const dir = new THREE.Vector3(...(params.get("dir") || "0.62,0.2,0.76").split(",").map(Number)).normalize();
+          camera.fov = 22; camera.updateProjectionMatrix();
+          const radius = size.length() / 2;
+          camera.position.copy(dir.multiplyScalar(radius / Math.sin((camera.fov * Math.PI) / 360) * 0.98)).add(new THREE.Vector3(0, size.y * 0.42, 0));
+          camera.lookAt(0, size.y * 0.42, 0);
+          const key = new THREE.DirectionalLight("#ffffff", 1.6); key.position.set(4, 6, 5); scene.add(key);
+        }
+        renderer.render(scene, camera);
+        window.__report = report;
+        window.__done = true;
+      }, undefined, (e) => { window.__error = String(e); window.__done = true; });
+    </script>
+  </body>
+</html>

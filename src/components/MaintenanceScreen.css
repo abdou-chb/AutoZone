@@ -1,0 +1,114 @@
+.maintenance {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: radial-gradient(circle at 50% 0%, var(--signal-soft), transparent 60%), var(--paper);
+}
+
+.maintenance__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--header-height);
+}
+
+.maintenance__prefs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.maintenance__main {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding-block: var(--space-6) var(--space-8);
+}
+
+.maintenance__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 560px;
+  padding: var(--space-7) var(--space-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-raised);
+  text-align: center;
+}
+
+.maintenance__icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--signal);
+  color: var(--signal-ink);
+}
+
+.maintenance__title {
+  font-size: var(--text-3xl);
+}
+
+.maintenance__message {
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: var(--text-lg);
+  white-space: pre-line;
+}
+
+.maintenance__help {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  margin-top: var(--space-2);
+  padding-top: var(--space-5);
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.maintenance__contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-5);
+  list-style: none;
+}
+
+.maintenance__contact li {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.maintenance__contact svg {
+  color: var(--ink-soft);
+}
+
+.maintenance__contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--ink);
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+@media (max-width: 520px) {
+  .maintenance__card {
+    padding: var(--space-6) var(--space-4);
+  }
+
+  .maintenance__title {
+    font-size: var(--text-2xl);
+  }
+}

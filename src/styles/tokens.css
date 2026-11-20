@@ -1,0 +1,140 @@
+:root {
+  --ink: #18212b;
+  --ink-soft: #2d3946;
+  --muted: #5b6673;
+  --subtle: #636d78;
+  --paper: #f3f4f1;
+  --surface: #ffffff;
+  --surface-sunken: #eceee9;
+  --line: #dadfd8;
+  --line-strong: #c2c9c0;
+  --line-input: #7d8792;
+
+  --signal: #f2b705;
+  --signal-hover: #e0a800;
+  --signal-soft: color-mix(in srgb, var(--signal) 15%, var(--surface));
+  --signal-ink: #18212b;
+
+  --night: #18212b;
+  --night-deep: #121a22;
+  --on-night: #ffffff;
+  --on-night-soft: #d5dbe0;
+  --on-night-muted: #a9b3bc;
+  --night-line: rgb(255 255 255 / 12%);
+  --scrim: 24 33 43;
+  --header-bg: rgb(255 255 255 / 94%);
+  --chip-on-photo: rgb(255 255 255 / 92%);
+  --chip-on-photo-ink: #18212b;
+  --input-bg: #ffffff;
+
+  --go: #1f7a55;
+  --go-soft: #e2f1e9;
+  --wait: #9a5b00;
+  --wait-soft: #fbefd9;
+  --stop: #b42318;
+  --stop-soft: #fbe8e6;
+  --info: #1d5c96;
+  --info-soft: #e3edf7;
+
+  --font-body: "Barlow", "Tajawal", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Barlow Condensed", "Cairo", "Barlow", system-ui, sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+  --text-2xl: 1.75rem;
+  --text-3xl: 2.25rem;
+  --text-4xl: clamp(2.5rem, 5vw + 1rem, 4.25rem);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --shadow-raised: 0 1px 2px rgb(24 33 43 / 6%), 0 4px 14px rgb(24 33 43 / 6%);
+  --shadow-overlay: 0 12px 40px rgb(24 33 43 / 22%);
+
+  --container: 1200px;
+  --gutter: clamp(1rem, 3vw, 2rem);
+  --header-height: 68px;
+
+  --focus-ring: 0 0 0 3px var(--surface), 0 0 0 5px var(--ink);
+
+  color-scheme: light;
+
+  transition:
+    --signal 0.45s ease,
+    --signal-hover 0.45s ease,
+    --signal-ink 0.45s ease;
+}
+
+:root[data-theme="dark"] {
+  --ink: #eef1f3;
+  --ink-soft: #cfd5da;
+  --muted: #a1abb4;
+  --subtle: #8a959f;
+  --paper: #121619;
+  --surface: #1a1f24;
+  --surface-sunken: #15191d;
+  --line: #2b3239;
+  --line-strong: #3b444c;
+  --line-input: #6c7782;
+
+  --go: #4cc38a;
+  --go-soft: #15302a;
+  --wait: #f0b45b;
+  --wait-soft: #33281a;
+  --stop: #ff8a7a;
+  --stop-soft: #3a1f1d;
+  --info: #7cb4ec;
+  --info-soft: #182a3c;
+
+  --signal-soft: color-mix(in srgb, var(--signal) 18%, var(--surface));
+
+  --night: #0d1013;
+  --night-deep: #0a0c0f;
+  --night-line: rgb(255 255 255 / 9%);
+  --header-bg: rgb(26 31 36 / 92%);
+  --chip-on-photo: rgb(26 31 36 / 86%);
+  --chip-on-photo-ink: #eef1f3;
+  --input-bg: #15191d;
+
+  --shadow-raised: 0 1px 2px rgb(0 0 0 / 30%), 0 6px 18px rgb(0 0 0 / 28%);
+  --shadow-overlay: 0 16px 48px rgb(0 0 0 / 55%);
+
+  color-scheme: dark;
+}
+
+:root[lang="ar"] {
+  --font-body: "Tajawal", "Barlow", system-ui, sans-serif;
+  --font-display: "Cairo", "Tajawal", system-ui, sans-serif;
+}
+
+@property --signal {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f2b705;
+}
+
+@property --signal-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #e0a800;
+}
+
+@property --signal-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #18212b;
+}

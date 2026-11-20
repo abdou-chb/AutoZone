@@ -1,0 +1,52 @@
+export default {
+  loading: "Chargement…",
+  optional: "(facultatif)",
+  money: {
+    price: "{amount} DA",
+    millions: { other: "{amount} millions" },
+    billions: { one: "{amount} milliard", other: "{amount} milliards" },
+  },
+  units: { km: "{value} km" },
+  condition: { New: "Neuf", Used: "Occasion" },
+  status: {
+    listing: { pending: "À valider", approved: "En ligne", rejected: "Refusée", sold: "Vendue" },
+    inspection: {
+      pending: "Reçue",
+      scheduled: "Planifiée",
+      confirmed: "Confirmée",
+      completed: "Terminée",
+      cancelled: "Annulée",
+    },
+  },
+  actions: {
+    tryAgain: "Réessayer",
+    retry: "Réessayer",
+    clearFilters: "Effacer les filtres",
+    clearAll: "Tout effacer",
+    close: "Fermer",
+    cancel: "Annuler",
+    back: "Retour",
+    seeAll: "Tout voir",
+  },
+  pagination: {
+    label: "Pages",
+    previous: "Précédent",
+    next: "Suivant",
+    previousPage: "Page précédente",
+    nextPage: "Page suivante",
+    page: "Page {page}",
+  },
+  card: {
+    noPhoto: "Pas de photo",
+    new: "Neuf",
+    electric: "Électrique",
+    save: "Enregistrer {name}",
+    unsave: "Retirer {name} de vos favoris",
+    saved: "Ajouté à vos favoris",
+    removed: "Retiré de vos favoris",
+  },
+  errors: {
+    offline: "Impossible de joindre AutoZone pour le moment. Vérifiez votre connexion et réessayez.",
+    generic: "Une erreur est survenue. Réessayez.",
+  },
+};

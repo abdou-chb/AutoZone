@@ -1,0 +1,36 @@
+.saved-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.saved-page__error {
+  max-width: 640px;
+}
+
+.saved-page__gone {
+  align-items: center;
+  background: var(--surface-sunken);
+  color: var(--ink-soft);
+}
+
+.saved-page__gone > svg {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+.saved-page__notice-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.saved-page__notice-body--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}

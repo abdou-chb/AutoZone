@@ -1,0 +1,397 @@
+{
+  "default": "cars",
+  "categories": [
+    {
+      "key": "cars",
+      "brands": [
+        "Renault",
+        "Peugeot",
+        "Hyundai",
+        "Volkswagen",
+        "Toyota",
+        "Dacia",
+        "Kia",
+        "Mercedes-Benz",
+        "BMW",
+        "Audi",
+        "Ford",
+        "Fiat",
+        "Škoda",
+        "Seat",
+        "Citroën",
+        "Chery",
+        "Nissan",
+        "Suzuki"
+      ],
+      "attributes": [
+        {
+          "key": "body",
+          "label": "Body type",
+          "type": "select",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Hatchback",
+            "Saloon",
+            "SUV",
+            "Coupé",
+            "Estate",
+            "Convertible",
+            "MPV"
+          ]
+        },
+        {
+          "key": "mileage",
+          "label": "Mileage",
+          "type": "number",
+          "column": "mileage",
+          "unit": "km",
+          "min": 0,
+          "max": 2000000,
+          "required": true
+        },
+        {
+          "key": "fuel",
+          "label": "Fuel",
+          "type": "select",
+          "column": "fuel",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Petrol",
+            "Diesel",
+            "Hybrid",
+            "Electric",
+            "LPG"
+          ]
+        },
+        {
+          "key": "transmission",
+          "label": "Gearbox",
+          "type": "select",
+          "column": "transmission",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Manual",
+            "Automatic"
+          ]
+        },
+        {
+          "key": "seats",
+          "label": "Seats",
+          "type": "number",
+          "min": 1,
+          "max": 9,
+          "required": true
+        }
+      ]
+    },
+    {
+      "key": "bicycles",
+      "brands": [
+        "Rockrider",
+        "Btwin",
+        "Trek",
+        "Specialized",
+        "Giant",
+        "Canyon",
+        "Cube",
+        "Scott",
+        "Ghost",
+        "Rocky Mountain",
+        "Cannondale",
+        "Merida",
+        "Himiway",
+        "EVELO"
+      ],
+      "attributes": [
+        {
+          "key": "type",
+          "label": "Bike type",
+          "type": "select",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Mountain",
+            "Road",
+            "Gravel",
+            "City",
+            "Trekking",
+            "BMX",
+            "Folding",
+            "Kids"
+          ]
+        },
+        {
+          "key": "electric",
+          "label": "Electric assist",
+          "type": "boolean",
+          "required": true,
+          "filter": true
+        },
+        {
+          "key": "frameSize",
+          "label": "Frame size",
+          "type": "select",
+          "required": false,
+          "options": [
+            "XS",
+            "S",
+            "M",
+            "L",
+            "XL"
+          ]
+        },
+        {
+          "key": "frameMaterial",
+          "label": "Frame material",
+          "type": "select",
+          "required": true,
+          "options": [
+            "Aluminium",
+            "Carbon",
+            "Steel",
+            "Titanium"
+          ]
+        },
+        {
+          "key": "wheelSize",
+          "label": "Wheel size",
+          "type": "select",
+          "required": true,
+          "filter": true,
+          "options": [
+            "16 in",
+            "20 in",
+            "24 in",
+            "26 in",
+            "27.5 in",
+            "28 in",
+            "29 in"
+          ]
+        },
+        {
+          "key": "gears",
+          "label": "Gears",
+          "type": "number",
+          "min": 1,
+          "max": 36,
+          "required": true
+        }
+      ]
+    },
+    {
+      "key": "motorcycles",
+      "brands": [
+        "Honda",
+        "Yamaha",
+        "Kawasaki",
+        "Suzuki",
+        "BMW",
+        "KTM",
+        "Triumph",
+        "Ducati",
+        "Harley-Davidson",
+        "Royal Enfield",
+        "Vespa",
+        "Piaggio",
+        "SYM",
+        "Kymco",
+        "Fantic",
+        "Peugeot"
+      ],
+      "attributes": [
+        {
+          "key": "type",
+          "label": "Motorcycle type",
+          "type": "select",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Scooter",
+            "Naked",
+            "Sport",
+            "Touring",
+            "Adventure",
+            "Off-road",
+            "Cruiser"
+          ]
+        },
+        {
+          "key": "engineCc",
+          "label": "Engine size",
+          "type": "number",
+          "unit": "cc",
+          "min": 49,
+          "max": 2500,
+          "required": false
+        },
+        {
+          "key": "mileage",
+          "label": "Mileage",
+          "type": "number",
+          "column": "mileage",
+          "unit": "km",
+          "min": 0,
+          "max": 500000,
+          "required": true
+        },
+        {
+          "key": "fuel",
+          "label": "Fuel",
+          "type": "select",
+          "column": "fuel",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Petrol",
+            "Electric"
+          ]
+        },
+        {
+          "key": "transmission",
+          "label": "Gearbox",
+          "type": "select",
+          "column": "transmission",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Manual",
+            "Automatic"
+          ]
+        }
+      ],
+      "ranges": [
+        {
+          "attribute": "engineCc",
+          "bounds": [
+            125,
+            500
+          ]
+        }
+      ]
+    },
+    {
+      "key": "trucks",
+      "brands": [
+        "Renault",
+        "Mercedes-Benz",
+        "Volvo",
+        "MAN",
+        "Iveco",
+        "Scania",
+        "DAF",
+        "Isuzu",
+        "Toyota",
+        "Ford",
+        "Volkswagen",
+        "Ram",
+        "Hyundai",
+        "Mitsubishi",
+        "Nissan",
+        "Peugeot",
+        "Citroën"
+      ],
+      "attributes": [
+        {
+          "key": "type",
+          "label": "Vehicle type",
+          "type": "select",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Small van",
+            "Large van",
+            "Pickup",
+            "Light truck",
+            "Medium truck",
+            "Heavy truck",
+            "Tractor unit"
+          ]
+        },
+        {
+          "key": "payload",
+          "label": "Payload",
+          "type": "number",
+          "unit": "kg",
+          "min": 100,
+          "max": 60000,
+          "required": true
+        },
+        {
+          "key": "gvw",
+          "label": "Gross vehicle weight",
+          "type": "number",
+          "unit": "kg",
+          "min": 1000,
+          "max": 60000,
+          "required": true
+        },
+        {
+          "key": "power",
+          "label": "Engine power",
+          "type": "number",
+          "unit": "hp",
+          "min": 40,
+          "max": 800,
+          "required": true
+        },
+        {
+          "key": "mileage",
+          "label": "Mileage",
+          "type": "number",
+          "column": "mileage",
+          "unit": "km",
+          "min": 0,
+          "max": 3000000,
+          "required": true
+        },
+        {
+          "key": "fuel",
+          "label": "Fuel",
+          "type": "select",
+          "column": "fuel",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Diesel",
+            "Petrol",
+            "Electric",
+            "LPG",
+            "Hybrid"
+          ]
+        },
+        {
+          "key": "transmission",
+          "label": "Gearbox",
+          "type": "select",
+          "column": "transmission",
+          "required": true,
+          "filter": true,
+          "options": [
+            "Manual",
+            "Automatic"
+          ]
+        }
+      ],
+      "ranges": [
+        {
+          "attribute": "payload",
+          "bounds": [
+            1000,
+            3500,
+            12000
+          ]
+        },
+        {
+          "attribute": "gvw",
+          "bounds": [
+            3500,
+            12000
+          ]
+        }
+      ]
+    }
+  ]
+}

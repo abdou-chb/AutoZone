@@ -1,0 +1,52 @@
+export default {
+  loading: "جارٍ التحميل…",
+  optional: "(اختياري)",
+  money: {
+    price: "{amount} دج",
+    millions: { few: "{amount} ملايين", other: "{amount} مليون" },
+    billions: { two: "مليارَان", few: "{amount} مليارات", other: "{amount} مليار" },
+  },
+  units: { km: "{value} كم" },
+  condition: { New: "جديدة", Used: "مستعملة" },
+  status: {
+    listing: { pending: "قيد المراجعة", approved: "منشور", rejected: "مرفوض", sold: "مُباع" },
+    inspection: {
+      pending: "مستلم",
+      scheduled: "مُبرمج",
+      confirmed: "مؤكَّد",
+      completed: "مكتمل",
+      cancelled: "ملغى",
+    },
+  },
+  actions: {
+    tryAgain: "أعد المحاولة",
+    retry: "أعد المحاولة",
+    clearFilters: "مسح عوامل التصفية",
+    clearAll: "مسح الكل",
+    close: "إغلاق",
+    cancel: "إلغاء",
+    back: "رجوع",
+    seeAll: "عرض الكل",
+  },
+  pagination: {
+    label: "الصفحات",
+    previous: "السابق",
+    next: "التالي",
+    previousPage: "الصفحة السابقة",
+    nextPage: "الصفحة التالية",
+    page: "الصفحة {page}",
+  },
+  card: {
+    noPhoto: "لا توجد صورة",
+    new: "جديدة",
+    electric: "كهربائية",
+    save: "حفظ {name}",
+    unsave: "إزالة {name} من المحفوظات",
+    saved: "أُضيفت إلى قائمتك",
+    removed: "أُزيلت من قائمتك",
+  },
+  errors: {
+    offline: "تعذّر الاتصال بـ AutoZone حاليًا. تحقّق من اتصالك وأعد المحاولة.",
+    generic: "حدث خطأ ما. أعد المحاولة.",
+  },
+};

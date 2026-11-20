@@ -1,0 +1,145 @@
+/* Car requests: the configuration a visitor asked for, and the decision on it. Layout comes from inbox.css. */
+
+.car-request__ref {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.car-request__config,
+.car-request__decide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+}
+
+.car-request__heading {
+  margin: 0;
+  font-size: var(--text-md);
+}
+
+.car-request__subheading {
+  margin: var(--space-2) 0 0;
+  color: var(--muted);
+  font-size: var(--text-sm);
+}
+
+.car-request__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.car-request__table th {
+  padding: var(--space-2) 0;
+  color: var(--muted);
+  font-weight: 600;
+  text-align: start;
+  border-bottom: 1px solid var(--line);
+}
+
+.car-request__table td {
+  padding: var(--space-2) var(--space-2) var(--space-2) 0;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+[dir="rtl"] .car-request__table td {
+  padding: var(--space-2) 0 var(--space-2) var(--space-2);
+}
+
+.car-request__table .car-request__price {
+  padding-inline-end: 0;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.car-request__included {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
+}
+
+.car-request__included li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.car-request__included li bdi:last-child,
+.car-request__muted {
+  color: var(--muted);
+}
+
+.car-request__muted {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.car-request__total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-2) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  font-weight: 600;
+}
+
+.car-request__total strong {
+  font-size: var(--text-lg);
+}
+
+.car-request__note {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--text-xs);
+}
+
+.car-request__note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.car-request__decide .field__hint {
+  margin: 0;
+}
+
+.car-request__decide .textarea {
+  min-height: 80px;
+}
+
+.car-request__decision {
+  padding: var(--space-3) var(--space-4);
+  border-inline-start: 3px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+}
+
+.car-request__decision--approved {
+  border-inline-start-color: var(--go);
+}
+
+.car-request__decision--rejected {
+  border-inline-start-color: var(--stop);
+}
+
+.car-request__decision-title,
+.car-request__decision-note {
+  margin: 0;
+}
+
+.car-request__decision-note {
+  margin-top: var(--space-2);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

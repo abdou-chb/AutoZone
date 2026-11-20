@@ -1,0 +1,2267 @@
+.tz {
+  --tz-bg: #f1f1ef;
+  --tz-ink: #0c0c0d;
+  --tz-muted: #5c5c60;
+  --tz-line: rgb(12 12 13 / 14%);
+  --tz-panel: rgb(250 250 248 / 88%);
+  --tz-chip-ring: #0c0c0d;
+  --tz-accent: #c0161e;
+  --tz-top: 104px;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--tz-bg);
+  color: var(--tz-ink);
+}
+
+.tz[data-mode="dark"] {
+  --tz-bg: #0b0b0c;
+  --tz-ink: #f2f2f2;
+  --tz-muted: #a3a3a8;
+  --tz-line: rgb(255 255 255 / 14%);
+  --tz-panel: rgb(16 16 18 / 84%);
+  --tz-chip-ring: #f2f2f2;
+  --tz-accent: #ff4a52;
+}
+
+/* Bar */
+
+.tz-bar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: 60px;
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  border-bottom: 1px solid var(--tz-line);
+  background: color-mix(in srgb, var(--tz-bg) 82%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.tz .logo__word,
+.tz .pref-btn {
+  color: var(--tz-ink);
+}
+
+.tz .logo__mark rect:first-child {
+  fill: var(--tz-ink);
+  stroke: var(--tz-ink);
+}
+
+.tz .logo__lane {
+  fill: var(--tz-bg);
+}
+
+.tz-bar__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.tz-bar__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  color: var(--tz-ink);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.2s ease;
+}
+
+.tz-bar__back:hover {
+  border-color: var(--tz-ink);
+}
+
+.tz .zones {
+  position: relative;
+  z-index: 21;
+}
+
+/* Stage */
+
+.tz-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.tz-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: pan-y;
+}
+
+.tz.is-free .tz-canvas {
+  touch-action: none;
+}
+
+.tz-loader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--space-3);
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.tz-loader__bar {
+  position: relative;
+  width: 160px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--tz-line);
+}
+
+.tz-loader__bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: var(--tz-ink);
+  animation: tz-loading 1.2s ease-in-out infinite;
+}
+
+@keyframes tz-loading {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(260%);
+  }
+}
+
+.tz-unsupported {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  padding: var(--space-6);
+  text-align: center;
+  color: var(--tz-muted);
+}
+
+/* Shared controls */
+
+.tz-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--tz-ink);
+  border-radius: var(--radius-pill);
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.tz-btn--quiet,
+.tz-btn[aria-pressed="false"] {
+  background: var(--tz-panel);
+  color: var(--tz-ink);
+  border-color: var(--tz-line);
+  backdrop-filter: blur(10px);
+}
+
+.tz-btn--quiet:hover:not(:disabled),
+.tz-btn[aria-pressed="false"]:hover:not(:disabled) {
+  border-color: var(--tz-ink);
+}
+
+.tz-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tz-btn:focus-visible,
+.tz-icon-btn:focus-visible,
+.tz-link:focus-visible,
+.tz-step:focus-visible,
+.tz-hotspot:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+.tz-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--tz-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--tz-ink);
+  cursor: pointer;
+}
+
+.tz-icon-btn:hover:not(:disabled) {
+  border-color: var(--tz-ink);
+}
+
+.tz-icon-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tz-toolbar .tz-icon-btn {
+  width: 40px;
+  height: 40px;
+}
+
+.tz-toolbar__divider {
+  width: 1px;
+  height: 24px;
+  background: var(--tz-line);
+}
+
+.tz-link {
+  padding: var(--space-1) 0;
+  border: 0;
+  background: none;
+  color: var(--tz-ink);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+/* Toolbar over the stage */
+
+.tz-toolbar {
+  position: fixed;
+  inset-block-end: calc(var(--space-5) + env(safe-area-inset-bottom, 0px));
+  inset-inline-start: 50%;
+  z-index: 16;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: var(--tz-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  transform: translateX(-50%);
+}
+
+[dir="rtl"] .tz-toolbar {
+  transform: translateX(50%);
+}
+
+.tz-toolbar__hint {
+  margin: 0;
+  padding-inline: var(--space-2);
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  white-space: nowrap;
+}
+
+.tz-compare-badge {
+  position: fixed;
+  inset-block-start: calc(var(--tz-top) + var(--space-4));
+  inset-inline-start: 50%;
+  z-index: 16;
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-pill);
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+[dir="rtl"] .tz-compare-badge {
+  transform: translateX(50%);
+}
+
+/* Hotspots (360° view) */
+
+.tz-hotspot {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-3) 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--tz-ink);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: opacity 0.25s ease;
+}
+
+.tz-hotspot[data-hidden="true"] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tz-hotspot__dot {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: var(--tz-ink);
+  box-shadow: 0 0 0 4px rgb(0 0 0 / 18%);
+}
+
+.tz-hotspot__dot::after {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: tz-pulse 2.2s ease-out infinite;
+}
+
+@keyframes tz-pulse {
+  from {
+    transform: scale(0.6);
+    opacity: 0.7;
+  }
+
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+.tz-hotspot__label {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--tz-panel);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateX(-4px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tz-hotspot:hover .tz-hotspot__label,
+.tz-hotspot:focus-visible .tz-hotspot__label {
+  opacity: 1;
+  transform: none;
+}
+
+/* Steps */
+
+.tz-steps {
+  position: fixed;
+  inset-inline-end: clamp(1rem, 2.5vw, 2rem);
+  top: calc(50% + var(--tz-top) / 2);
+  z-index: 15;
+  transform: translateY(-50%);
+}
+
+.tz-steps ol {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-step {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: 40px;
+  padding-inline: var(--space-3) var(--space-4);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: var(--tz-panel);
+  color: var(--tz-muted);
+  font-family: inherit;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease;
+}
+
+.tz-step:hover {
+  color: var(--tz-ink);
+  border-color: var(--tz-ink);
+}
+
+.tz-step.is-active {
+  border-color: var(--tz-ink);
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+}
+
+.tz-step__index {
+  font-size: var(--text-xs);
+  opacity: 0.7;
+}
+
+.tz-step__count {
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  margin-inline-start: auto;
+  padding-inline: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--tz-accent);
+  color: #fff;
+  font-size: 11px;
+}
+
+/* 360° mode: the car takes the whole screen */
+
+.tz.is-free .tz-content,
+.tz.is-free .tz-steps {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tz-content,
+.tz-steps {
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s;
+}
+
+/* Reading direction changed: the panel and the section rail move to the other side while the car drives across.
+   They stay out of the way until the car has left, then slide in from their own edge of the screen. */
+
+.tz {
+  --tz-swap-delay: 1.15s;
+  --tz-start-edge: -1;
+}
+
+[dir="rtl"] .tz {
+  --tz-start-edge: 1;
+}
+
+.tz[data-swap] .tz-panel,
+.tz[data-swap] .tz-steps ol {
+  animation: tz-swap-a 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) var(--tz-swap-delay) both;
+}
+
+.tz[data-swap="b"] .tz-panel,
+.tz[data-swap="b"] .tz-steps ol {
+  animation-name: tz-swap-b;
+}
+
+.tz[data-swap] .tz-panel {
+  --tz-from: calc(var(--tz-start-edge) * 32px);
+}
+
+.tz[data-swap] .tz-steps ol {
+  --tz-from: calc(var(--tz-start-edge) * -24px);
+}
+
+/* Two identical animations: switching between them restarts the slide on every change. */
+@keyframes tz-swap-a {
+  from {
+    opacity: 0;
+    translate: var(--tz-from) 0;
+  }
+}
+
+@keyframes tz-swap-b {
+  from {
+    opacity: 0;
+    translate: var(--tz-from) 0;
+  }
+}
+
+/* Sections and panels */
+
+.tz-content {
+  position: relative;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.tz-content:focus {
+  outline: none;
+}
+
+.tz-section {
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--tz-top) * 0.6 + var(--space-4)) clamp(1rem, 4vw, 3.5rem) calc(var(--space-8) + 40px);
+}
+
+.tz-section:first-child {
+  min-height: calc(100svh - var(--tz-top));
+}
+
+.tz-panel {
+  width: min(420px, 100%);
+  max-height: calc(100svh - 190px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-5);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-lg);
+  background: var(--tz-panel);
+  backdrop-filter: blur(22px) saturate(140%);
+  pointer-events: auto;
+  opacity: 0.35;
+  transform: translateY(16px);
+  scrollbar-width: thin;
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tz-section.is-active .tz-panel {
+  opacity: 1;
+  transform: none;
+}
+
+.tz-panel__kicker {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--tz-muted);
+}
+
+.tz-panel__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 2.4vw + 1rem, 2.75rem);
+  line-height: 1;
+}
+
+.tz-panel__text {
+  margin: var(--space-3) 0 var(--space-4);
+  color: var(--tz-muted);
+}
+
+.tz-panel__title {
+  scroll-margin-top: var(--space-4);
+}
+
+/* The heading takes focus only so screen readers announce the opened component. */
+.tz-panel__title:focus,
+.tz-panel__title:focus-visible {
+  outline: none;
+}
+
+.tz-panel__title--detail {
+  font-size: clamp(1.6rem, 1.6vw + 1rem, 2.1rem);
+}
+
+/* The panel body slides in when the user opens or leaves a component. */
+.tz-panel__body {
+  animation: tz-body-in 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes tz-body-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Breadcrumb in an open component */
+
+.tz-crumbs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.tz-crumbs__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 36px;
+  padding-inline: var(--space-2) var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--tz-ink);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tz-crumbs__back:hover {
+  border-color: var(--tz-ink);
+}
+
+.tz-crumbs__back:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+.tz-crumbs__trail {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.tz-crumbs__trail [aria-current] {
+  color: var(--tz-ink);
+}
+
+/* Camera views of a section */
+
+.tz-views {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+
+.tz-view {
+  min-height: 34px;
+  padding-inline: var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--tz-muted);
+  font: inherit;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.tz-view:hover {
+  color: var(--tz-ink);
+  border-color: var(--tz-ink);
+}
+
+.tz-view[aria-pressed="true"] {
+  border-color: var(--tz-ink);
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+}
+
+.tz-view:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+/* Component list */
+
+.tz-components {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--tz-line);
+}
+
+.tz-component {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 60px;
+  padding: var(--space-2) var(--space-1);
+  border: 0;
+  border-bottom: 1px solid var(--tz-line);
+  background: transparent;
+  color: var(--tz-ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tz-component:hover {
+  background: color-mix(in srgb, var(--tz-ink) 5%, transparent);
+}
+
+.tz-component:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: -3px;
+}
+
+.tz-component .tz-component__face {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+}
+
+.tz-component__face--icon {
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--tz-line);
+  color: var(--tz-muted);
+}
+
+.tz-component__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.tz-component__name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.tz-component__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-component__chevron {
+  flex: none;
+  color: var(--tz-muted);
+  transition: transform 0.2s ease;
+}
+
+.tz-component:hover .tz-component__chevron {
+  transform: translateX(2px);
+}
+
+[dir="rtl"] .tz-component:hover .tz-component__chevron {
+  transform: translateX(-2px) scaleX(-1);
+}
+
+/* Option groups */
+
+.tz-group {
+  margin: 0;
+  padding: var(--space-4) 0 0;
+  border: 0;
+  border-top: 1px solid var(--tz-line);
+  border-radius: var(--radius-md);
+  transition: background-color 0.4s ease;
+}
+
+.tz-group + .tz-group {
+  margin-top: var(--space-4);
+}
+
+.tz-group.is-highlighted {
+  background: color-mix(in srgb, var(--tz-ink) 7%, transparent);
+}
+
+.tz-group__legend {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  margin-bottom: var(--space-3);
+  padding: 0;
+  float: inline-start;
+  font-size: var(--text-sm);
+}
+
+.tz-group__legend + * {
+  clear: both;
+}
+
+.tz-group__name {
+  font-weight: 700;
+}
+
+.tz-group__value {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--tz-muted);
+  text-align: end;
+}
+
+.tz-group__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tz-accent);
+}
+
+.tz-group__hint {
+  margin: var(--space-2) 0 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-chips {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: var(--space-3) var(--space-2);
+}
+
+.tz-chip {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.tz-chip input,
+.tz-segment__item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.tz-chip__face {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--chip, var(--tz-bg));
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 18%),
+    inset 0 6px 10px rgb(255 255 255 / 22%);
+  color: transparent;
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tz-chips--chip .tz-chip__face {
+  width: 52px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+/* Paint chips carry a highlight so finish and colour read together. */
+.tz-chip__face--paint {
+  background:
+    radial-gradient(circle at 32% 28%, rgb(255 255 255 / 55%), transparent 42%),
+    radial-gradient(circle at 70% 80%, rgb(0 0 0 / 28%), transparent 55%),
+    var(--chip);
+}
+
+.tz-chip__face--carbon {
+  background: repeating-conic-gradient(#1b1b1d 0 25%, #34343a 0 50%) 0 0 / 8px 8px;
+}
+
+.tz-chip__face--chrome {
+  background: linear-gradient(160deg, #fafafa, #8d9196 45%, #f4f4f4 55%, #6b6f74);
+}
+
+.tz-chip__face--titanium {
+  background: linear-gradient(120deg, #6c5a8d, #3d6fb0 30%, #c79a4a 62%, #8b6a3d);
+}
+
+.tz-chip__face--diamond {
+  background: conic-gradient(
+    #2a2a2c 0 12%,
+    #d6d8da 12% 20%,
+    #2a2a2c 20% 32%,
+    #d6d8da 32% 40%,
+    #2a2a2c 40% 52%,
+    #d6d8da 52% 60%,
+    #2a2a2c 60% 72%,
+    #d6d8da 72% 80%,
+    #2a2a2c 80% 92%,
+    #d6d8da 92%
+  );
+}
+
+.tz-chip__face--brushed {
+  background: repeating-linear-gradient(0deg, #c4c7ca 0 1px, #a9adb1 1px 2px, #d2d5d8 2px 3px);
+}
+
+.tz-chip__face--body {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--chip) 70%, #fff), var(--chip) 55%);
+}
+
+.tz-chip__face--glass {
+  background:
+    linear-gradient(rgb(8 10 12 / calc(var(--shade) * 100%)), rgb(8 10 12 / calc(var(--shade) * 100%))),
+    linear-gradient(135deg, #e9eef1, #b7c4cb);
+}
+
+.tz-chip__face--glass.tz-chip__face--red {
+  background:
+    linear-gradient(rgb(20 0 2 / calc(var(--shade) * 100%)), rgb(20 0 2 / calc(var(--shade) * 100%))),
+    linear-gradient(135deg, #ff4b4b, #a10d14);
+}
+
+.tz-chip__face--factory-tint {
+  background: linear-gradient(90deg, #dfe6ea 0 50%, #2a3034 50%);
+}
+
+.tz-chip__face--own {
+  background: radial-gradient(circle at 35% 30%, #f4f4f2, #a3a3a7 72%);
+}
+
+.tz-chip__face--factory-seats {
+  background: linear-gradient(90deg, #e3e1dc 0 38%, #2b2b2d 38% 62%, #e3e1dc 62%);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 18%),
+    inset 0 -6px 0 #b3121a;
+}
+
+.tz-chip__face--factory-trim {
+  background: repeating-linear-gradient(45deg, #2a2a2e 0 3px, #3a3a40 3px 6px);
+}
+
+.tz-chip__face--factory-ambient {
+  background: conic-gradient(#ff4fb8, #2f6bff, #9fe3ff, #ffb52e, #ff4fb8);
+}
+
+.tz-chip__face--off {
+  background: linear-gradient(135deg, transparent 46%, var(--tz-muted) 46% 54%, transparent 54%), var(--tz-bg);
+}
+
+.tz-chip:hover .tz-chip__face {
+  transform: scale(1.06);
+}
+
+.tz-chip input:checked + .tz-chip__face {
+  color: #fff;
+  box-shadow:
+    0 0 0 2px var(--tz-bg),
+    0 0 0 4px var(--tz-chip-ring);
+}
+
+.tz-chip input:checked + .tz-chip__face svg {
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 70%));
+}
+
+.tz-chip input:focus-visible + .tz-chip__face {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 5px;
+}
+
+.tz-chip__name {
+  font-size: var(--text-xs);
+  line-height: 1.25;
+  text-align: center;
+  color: var(--tz-muted);
+}
+
+.tz-chip input:checked ~ .tz-chip__name {
+  color: var(--tz-ink);
+  font-weight: 600;
+}
+
+.tz-segment {
+  display: flex;
+  padding: 3px;
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+}
+
+.tz-segment__item {
+  flex: 1;
+}
+
+.tz-segment__item span {
+  display: grid;
+  place-items: center;
+  min-height: 40px;
+  padding-inline: var(--space-2);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-align: center;
+  color: var(--tz-muted);
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.tz-segment__item:hover span {
+  color: var(--tz-ink);
+}
+
+.tz-segment__item input:checked + span {
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+}
+
+.tz-segment__item input:focus-visible + span {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+.tz-segment--compact {
+  border: 0;
+  padding: 0;
+}
+
+.tz-segment--compact .tz-segment__item span {
+  padding-inline: var(--space-4);
+}
+
+.tz-note {
+  display: flex;
+  gap: var(--space-2);
+  margin: var(--space-5) 0 0;
+  padding: var(--space-3);
+  border: 1px dashed var(--tz-line);
+  border-radius: var(--radius-md);
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.tz-note svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.tz-note strong {
+  color: var(--tz-ink);
+}
+
+/* Performance */
+
+.tz-perf {
+  margin-top: var(--space-4);
+}
+
+.tz-perf__specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.tz-perf__row {
+  padding: var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-md);
+}
+
+.tz-perf__row--wide {
+  grid-column: 1 / -1;
+}
+
+.tz-perf__row dt {
+  margin-bottom: var(--space-1);
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.tz-perf__row dd {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin: 0;
+  font-weight: 600;
+}
+
+.tz-perf__row strong {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  line-height: 1;
+}
+
+.tz-perf__sub {
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-source {
+  margin-inline-start: auto;
+  padding: 2px 8px;
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  color: var(--tz-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.tz-source--estimate {
+  border-color: var(--tz-accent);
+  color: var(--tz-accent);
+}
+
+.tz-bar-meter {
+  position: relative;
+  flex-basis: 100%;
+  height: 6px;
+  margin-top: var(--space-1);
+  border-radius: var(--radius-pill);
+  background: var(--tz-line);
+}
+
+.tz-bar-meter__stock {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: inherit;
+  background: var(--tz-ink);
+  transition: inline-size 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tz-bar-meter__range {
+  position: absolute;
+  inset-block: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(135deg, var(--tz-accent) 0 4px, transparent 4px 7px);
+  box-shadow: inset 0 0 0 1px var(--tz-accent);
+}
+
+.tz-perf__note {
+  margin: var(--space-3) 0 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+/* Summary */
+
+.tz-summary__count {
+  margin: 0 0 var(--space-4);
+  font-weight: 600;
+}
+
+.tz-summary__section + .tz-summary__section {
+  margin-top: var(--space-4);
+}
+
+.tz-summary__head {
+  margin: 0;
+  padding-bottom: var(--space-1);
+  border-bottom: 1px solid var(--tz-line);
+  font-size: var(--text-sm);
+}
+
+.tz-summary__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-summary__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "group price actions"
+    "value price actions"
+    "was price actions";
+  align-items: center;
+  column-gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--tz-line);
+}
+
+.tz-summary__group {
+  grid-area: group;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-summary__value {
+  grid-area: value;
+  font-weight: 600;
+}
+
+.tz-summary__was {
+  grid-area: was;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-summary__actions-row {
+  grid-area: actions;
+  display: flex;
+  gap: var(--space-1);
+}
+
+.tz-summary__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.tz-credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.tz-credit {
+  position: relative;
+  margin: 0;
+  padding: 0 clamp(1rem, 4vw, 3.5rem) calc(var(--space-8) + 60px);
+  font-size: var(--text-xs);
+  color: var(--tz-muted);
+  pointer-events: auto;
+}
+
+/* Phones and small tablets: the panel becomes a bottom sheet, steps a scrolling bar */
+
+/* Showroom console above the car: the car selector and the price. The selector's card panel, its status and the
+   price breakdown hang under the console, centred on the screen or against its end edge. */
+
+.tz-console {
+  position: fixed;
+  inset-block-start: calc(var(--tz-top) + var(--space-3));
+  inset-inline-start: 50%;
+  z-index: 17;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  max-width: calc(100vw - 2 * var(--space-3));
+  translate: -50% 0;
+}
+
+[dir="rtl"] .tz-console {
+  translate: 50% 0;
+}
+
+.tz-garage {
+  min-width: 0;
+}
+
+.tz-garage__status,
+.tz-garage__panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-2));
+  inset-inline-start: 50%;
+  translate: -50% 0;
+}
+
+[dir="rtl"] .tz-garage__status,
+[dir="rtl"] .tz-garage__panel {
+  translate: 50% 0;
+}
+
+.tz-garage__status {
+  white-space: nowrap;
+}
+
+.tz-garage__bar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: var(--tz-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+.tz-garage__step,
+.tz-garage__current {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--tz-ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.tz-garage__step {
+  width: 44px;
+}
+
+.tz-garage__current {
+  flex: 0 1 auto;
+  gap: var(--space-2);
+  min-width: 13.5rem;
+  padding-inline: var(--space-4) var(--space-3);
+  white-space: nowrap;
+}
+
+.tz-garage__step:hover,
+.tz-garage__current:hover,
+.tz-garage.is-open .tz-garage__current {
+  background: var(--tz-line);
+}
+
+.tz-garage__step:focus-visible,
+.tz-garage__current:focus-visible,
+.tz-car:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+.tz-garage__make {
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-garage__model {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+}
+
+.tz-garage__chevron {
+  margin-inline-start: auto;
+  color: var(--tz-muted);
+  transition: rotate 0.25s ease;
+}
+
+.tz-garage.is-open .tz-garage__chevron {
+  rotate: 180deg;
+}
+
+.tz-garage__status {
+  margin: 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  pointer-events: none;
+}
+
+.tz-garage__status::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-inline-end: var(--space-2);
+  border-radius: 50%;
+  background: var(--tz-accent);
+  vertical-align: middle;
+  animation: tz-pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes tz-pulse {
+  to {
+    opacity: 0.25;
+  }
+}
+
+.tz-garage__panel {
+  width: min(44rem, calc(100vw - 2rem));
+  max-height: calc(100svh - var(--tz-top) - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-lg);
+  background: var(--tz-panel);
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 18%);
+  animation: tz-garage-open 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tz-garage__panel[hidden] {
+  display: none;
+}
+
+@keyframes tz-garage-open {
+  from {
+    opacity: 0;
+    margin-block-start: -8px;
+  }
+}
+
+.tz-garage__title {
+  margin: 0 0 var(--space-3);
+  font-weight: 700;
+}
+
+.tz-garage__cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-car {
+  display: grid;
+  width: 100%;
+  padding: var(--space-2) var(--space-2) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--tz-ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.tz-car:hover {
+  background: var(--tz-line);
+}
+
+.tz-car[aria-pressed="true"] {
+  border-color: var(--tz-ink);
+}
+
+.tz-car__picture {
+  position: relative;
+  display: block;
+  margin-block-end: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: radial-gradient(60% 45% at 50% 70%, var(--tz-line), transparent);
+}
+
+.tz-car__picture img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.tz-car__check {
+  position: absolute;
+  inset-block-start: 4px;
+  inset-inline-end: 4px;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--tz-ink);
+  color: var(--tz-bg);
+}
+
+.tz-car__make,
+.tz-car__body {
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-car__model {
+  font-weight: 700;
+}
+
+/* While the cars swap places the panels still describe the car that is leaving: they rest until the new one is in. */
+
+.tz-toolbar {
+  transition: opacity 0.3s ease;
+}
+
+.tz.is-swapping .tz-panel,
+.tz.is-swapping .tz-quote,
+.tz.is-swapping .tz-toolbar,
+.tz.is-swapping .tz-steps {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.tz.is-swapping .tz-section.is-active .tz-panel {
+  opacity: 0.35;
+}
+
+.tz-compare-badge {
+  inset-block-start: calc(var(--tz-top) + 76px);
+}
+
+@media (max-width: 860px) {
+  /* The car stays centred above the bottom sheet, so nothing has to wait for it. */
+  .tz {
+    --tz-swap-delay: 0s;
+  }
+
+  .tz-steps {
+    inset-inline: 0;
+    top: auto;
+    bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
+    transform: none;
+  }
+
+  .tz-steps ol {
+    grid-auto-flow: column;
+    justify-content: start;
+    overflow-x: auto;
+    padding: 2px var(--space-3);
+    scrollbar-width: none;
+  }
+
+  .tz-step {
+    min-height: 40px;
+    padding-inline: var(--space-3);
+    white-space: nowrap;
+  }
+
+  .tz-step__index {
+    display: none;
+  }
+
+  .tz-toolbar {
+    inset-block: calc(var(--tz-top) + var(--space-2)) auto;
+    padding: 4px;
+  }
+
+  .tz-toolbar .tz-btn {
+    min-height: 40px;
+    padding-inline: var(--space-3);
+  }
+
+  .tz-btn__label,
+  .tz-toolbar__hint {
+    display: none;
+  }
+
+  .tz-compare-badge {
+    inset-block-start: calc(var(--tz-top) + 116px);
+  }
+
+  .tz-console {
+    inset-block-start: calc(var(--tz-top) + 60px);
+    gap: 6px;
+  }
+
+  .tz-garage__current {
+    min-width: 0;
+    padding-inline: var(--space-3) var(--space-2);
+  }
+
+  .tz-quote__pill {
+    padding-inline: var(--space-3);
+  }
+
+  .tz-quote__icon {
+    display: none;
+  }
+
+  .tz-quote__panel {
+    inset-inline-end: auto;
+    inset-inline-start: 50%;
+    width: calc(100vw - 2 * var(--space-3));
+    max-height: calc(100svh - var(--tz-top) - 140px);
+    translate: -50% 0;
+  }
+
+  [dir="rtl"] .tz-quote__panel {
+    translate: 50% 0;
+  }
+
+  .tz-quote__flash {
+    inset-inline-end: 0;
+  }
+
+  .tz-garage__make {
+    display: none;
+  }
+
+  .tz-garage__cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tz-section {
+    align-items: flex-end;
+    padding: 0 var(--space-3) calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tz-panel {
+    width: 100%;
+    max-height: 50svh;
+    padding: var(--space-4);
+  }
+
+  .tz-panel__title {
+    font-size: var(--text-2xl);
+  }
+
+  .tz-panel__text {
+    display: none;
+  }
+
+  .tz-hotspot__label {
+    display: none;
+  }
+}
+
+/* Short phones: a lower sheet leaves the car room under the console. */
+@media (max-width: 860px) and (max-height: 780px) {
+  .tz-panel {
+    max-height: 44svh;
+  }
+}
+
+@media (max-width: 480px) {
+  .tz-bar__back span {
+    display: none;
+  }
+
+  .tz-step__label {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-panel__body,
+  .tz-panel,
+  .tz-loader__bar::after,
+  .tz-hotspot__dot::after,
+  .tz-bar-meter__stock,
+  .tz-content,
+  .tz-steps,
+  .tz[data-swap] .tz-panel,
+  .tz[data-swap] .tz-steps ol {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Price: the pill beside the car selector, the note when a choice changes it, the breakdown */
+
+/* Static: the note and the breakdown hang from the console's end edge (the pill is its last item). */
+.tz-quote {
+  flex: none;
+  transition: opacity 0.3s ease;
+}
+
+.tz-quote__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 54px;
+  padding: 4px var(--space-4) 4px var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-pill);
+  background: var(--tz-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  color: var(--tz-ink);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.tz-quote__pill:hover,
+.tz-quote.is-open .tz-quote__pill {
+  border-color: var(--tz-ink);
+}
+
+.tz-quote__pill:focus-visible {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 2px;
+}
+
+.tz-quote__icon {
+  color: var(--tz-muted);
+}
+
+.tz-quote__text {
+  display: grid;
+  justify-items: start;
+  line-height: 1.15;
+}
+
+.tz-quote__label {
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-quote__amount {
+  font-weight: 700;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.tz-quote__amount.is-changing {
+  animation: tz-quote-tick 0.6s ease-out;
+}
+
+@keyframes tz-quote-tick {
+  from {
+    color: var(--tz-accent);
+  }
+}
+
+.tz-quote__flash {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-2));
+  inset-inline-end: 0;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: baseline;
+  column-gap: var(--space-3);
+  min-width: 12rem;
+  max-width: min(20rem, calc(100vw - 2 * var(--space-3)));
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-md);
+  background: var(--tz-panel);
+  backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
+  font-size: var(--text-sm);
+  pointer-events: none;
+  animation: tz-quote-flash 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes tz-quote-flash {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  12%,
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.tz-quote__flash-group {
+  grid-column: 1 / -1;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-quote__flash-name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tz-quote__flash-price {
+  justify-self: end;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tz-quote__flash-price.is-less {
+  color: var(--tz-muted);
+}
+
+.tz-quote__panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-2));
+  inset-inline-end: 0;
+  width: min(24rem, calc(100vw - 2 * var(--space-3)));
+  max-height: calc(100svh - var(--tz-top) - 96px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: var(--space-4);
+  border: 1px solid var(--tz-line);
+  border-radius: var(--radius-lg);
+  background: var(--tz-panel);
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow: 0 24px 60px rgb(0 0 0 / 18%);
+  animation: tz-garage-open 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.tz-quote__panel[hidden] {
+  display: none;
+}
+
+.tz-quote__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-block-end: var(--space-2);
+}
+
+.tz-quote__title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.tz-quote__heading {
+  margin: var(--space-3) 0 0;
+  padding-block-end: var(--space-1);
+  border-block-end: 1px solid var(--tz-line);
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.tz-quote__lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tz-quote__line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  border-block-end: 1px solid var(--tz-line);
+}
+
+.tz-quote__line--included {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.tz-quote__item {
+  display: grid;
+  min-width: 0;
+  padding-block: var(--space-1);
+}
+
+.tz-quote__group {
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+.tz-quote__option {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.tz-quote__price {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tz-quote__line--included .tz-quote__price {
+  color: var(--tz-muted);
+  font-weight: 400;
+}
+
+.tz-quote__empty {
+  margin: var(--space-2) 0 0;
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-quote__row,
+.tz-quote__total {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-3) 0 0;
+}
+
+.tz-quote__row {
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-quote__total {
+  align-items: baseline;
+  font-weight: 700;
+}
+
+.tz-quote__total .numeric {
+  font-size: var(--text-2xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.tz-quote__note {
+  margin: var(--space-2) 0 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+/* Prices beside the options */
+
+.tz-group__price {
+  white-space: nowrap;
+}
+
+.tz-group__price::before {
+  content: "·";
+  margin-inline-end: 6px;
+}
+
+.tz-group__price.is-paid {
+  color: var(--tz-ink);
+  font-weight: 600;
+}
+
+.tz-chip__price,
+.tz-segment__price,
+.tz-component__price {
+  color: var(--tz-muted);
+  font-size: 0.6875rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.tz-segment__item input:checked + span .tz-segment__price {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.tz-component__price::before {
+  content: "·";
+  margin-inline-end: 6px;
+}
+
+.tz-summary__price {
+  grid-area: price;
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.tz-summary__price.is-paid {
+  color: var(--tz-ink);
+  font-weight: 600;
+}
+
+.tz-summary__total {
+  margin-top: var(--space-4);
+}
+
+.tz-summary__total dl {
+  margin: 0;
+}
+
+.tz-summary__total dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-1);
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+}
+
+.tz-summary__total dd {
+  margin: 0;
+}
+
+.tz-summary__total .tz-summary__grand {
+  align-items: baseline;
+  padding-block-start: var(--space-2);
+  border-block-start: 1px solid var(--tz-ink);
+  color: var(--tz-ink);
+  font-size: var(--text-base);
+  font-weight: 700;
+}
+
+.tz-summary__grand dd {
+  font-size: var(--text-2xl);
+  font-variant-numeric: tabular-nums;
+}
+
+.tz-summary__note {
+  margin: var(--space-2) 0 0;
+  color: var(--tz-muted);
+  font-size: var(--text-xs);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-quote__flash {
+    animation: tz-quote-fade 2.4s step-end both;
+  }
+
+  .tz-quote__amount.is-changing,
+  .tz-quote__panel {
+    animation: none;
+  }
+}
+
+@keyframes tz-quote-fade {
+  to {
+    opacity: 0;
+  }
+}
+
+/* Lighting: lamp rows, LED colours, lenses, looks */
+
+.tz-component .tz-lamp {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: linear-gradient(160deg, #2a2d33, #0d0e10 70%);
+  color: rgb(255 255 255 / 45%);
+}
+
+/* The lamp's light line, lit in its LED colour, seen through its (possibly smoked) lens. */
+.tz-component .tz-lamp::before {
+  position: absolute;
+  inset: auto 6px 9px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 18%);
+  content: "";
+  transition:
+    background 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.tz-component .tz-lamp::after {
+  position: absolute;
+  inset: 0;
+  background: rgb(6 7 8 / calc(var(--lens, 0) * 85%));
+  content: "";
+}
+
+.tz-component .tz-lamp.is-lit::before {
+  background: var(--led);
+  box-shadow: 0 0 8px 1px var(--led);
+}
+
+.tz-component .tz-lamp.is-lit {
+  color: transparent;
+}
+
+.tz-component .tz-lamp--rear::before {
+  background: rgb(255 60 50 / 30%);
+}
+
+.tz-component .tz-lamp--rear.is-lit::before {
+  background: var(--led);
+  box-shadow: 0 0 8px 1px var(--led);
+}
+
+/* An LED emitter: a white-hot centre in its colour temperature. */
+.tz-chip__face--led {
+  background:
+    radial-gradient(circle at 50% 50%, #fff 0 16%, var(--chip) 34%, color-mix(in srgb, var(--chip) 30%, #15171b) 72%),
+    #15171b;
+}
+
+/* A lens: its tint over the lamp's dark inside, with a highlight. */
+.tz-chip__face--lens {
+  background:
+    linear-gradient(150deg, rgb(255 255 255 / 55%), transparent 38%),
+    linear-gradient(135deg, color-mix(in srgb, var(--chip) 85%, #fff), color-mix(in srgb, var(--chip) 70%, #120607));
+}
+
+.tz-chip__face--metal {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--chip) 55%, #fff), var(--chip) 45%, color-mix(in srgb, var(--chip) 70%, #fff) 55%, var(--chip));
+}
+
+.tz-looks__list {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-3) var(--space-2);
+}
+
+.tz-look {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Headlamp on the left (its LED glow behind its lens), rear lamp on the right (its lens tone). */
+.tz-look__face {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3px;
+  width: 100%;
+  max-width: 64px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 10px;
+  background: linear-gradient(160deg, #2a2d33, #0d0e10 70%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 8%);
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.tz-look__head,
+.tz-look__tail {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tz-look__head {
+  background: radial-gradient(ellipse 70% 45% at 50% 55%, #fff 0 10%, var(--led) 30%, transparent 72%), #16181c;
+}
+
+.tz-look__tail {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--tail) 80%, #fff), var(--tail));
+}
+
+.tz-look__head::after,
+.tz-look__tail::after {
+  position: absolute;
+  inset: 0;
+  background: rgb(6 7 8 / calc(var(--lens, 0) * 80%));
+  content: "";
+}
+
+.tz-look__tail::after {
+  background: rgb(10 2 3 / calc(var(--tail-smoke, 0) * 80%));
+}
+
+.tz-look__check {
+  position: absolute;
+  inset-block-start: 3px;
+  inset-inline-end: 3px;
+  color: #fff;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 70%));
+}
+
+.tz-look:hover .tz-look__face {
+  transform: scale(1.05);
+}
+
+.tz-look[aria-pressed="true"] .tz-look__face {
+  box-shadow:
+    0 0 0 2px var(--tz-bg),
+    0 0 0 4px var(--tz-chip-ring);
+}
+
+.tz-look:focus-visible {
+  outline: none;
+}
+
+.tz-look:focus-visible .tz-look__face {
+  outline: 3px solid var(--tz-chip-ring);
+  outline-offset: 5px;
+}
+
+.tz-look__name {
+  font-size: var(--text-xs);
+  line-height: 1.25;
+  text-align: center;
+  color: var(--tz-muted);
+}
+
+.tz-look[aria-pressed="true"] .tz-look__name {
+  color: var(--tz-ink);
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tz-component .tz-lamp::before,
+  .tz-look__face {
+    transition: none;
+  }
+}
+
+/* Request this car: the last step of the summary, and the end of the price breakdown. */
+
+.tz-summary__request {
+  display: grid;
+  gap: var(--space-3);
+  margin-block-start: var(--space-4);
+  padding-block-start: var(--space-4);
+  border-block-start: 1px solid var(--tz-line);
+}
+
+.tz-summary__request p {
+  margin: 0;
+  color: var(--tz-muted);
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.tz-summary__request-btn,
+.tz-quote__request {
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+}
+
+.tz-quote__request {
+  margin-block-start: var(--space-3);
+}
+
+/* Request a repair: a premium accent entry in the top bar. */
+
+.tz-bar__repair {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding-inline: var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  background:
+    linear-gradient(var(--tz-bg), var(--tz-bg)) padding-box,
+    linear-gradient(120deg, #4b8bff, #ff4651) border-box;
+  color: var(--tz-ink);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: 700;
+  cursor: pointer;
+  transition: box-shadow 0.25s ease, transform 0.1s ease;
+}
+
+.tz-bar__repair svg {
+  color: #ff4651;
+}
+
+.tz-bar__repair:hover {
+  box-shadow: 0 0 0 1px rgb(255 70 81 / 30%), 0 6px 22px rgb(75 139 255 / 22%);
+}
+
+.tz-bar__repair:active {
+  transform: scale(0.98);
+}
+
+.tz-bar__repair:focus-visible {
+  outline: 2px solid var(--tz-ink);
+  outline-offset: 2px;
+}
+
+@media (max-width: 560px) {
+  .tz-bar__repair span {
+    display: none;
+  }
+
+  .tz-bar__repair {
+    padding-inline: var(--space-3);
+  }
+}

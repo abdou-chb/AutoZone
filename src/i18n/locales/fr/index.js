@@ -1,0 +1,26 @@
+import common from "./common";
+import nav from "./nav";
+import zones from "./zones";
+import attributes from "./attributes";
+import home from "./home";
+import landing from "./landing";
+import listing from "./listing";
+import details from "./details";
+import inspection from "./inspection";
+import track from "./track";
+import saved from "./saved";
+import sell from "./sell";
+import admin from "./admin";
+import wilayas from "./wilayas";
+import adminShell from "./adminShell";
+import adminListings from "./adminListings";
+import adminInspections from "./adminInspections";
+import adminMessages from "./adminMessages";
+import adminCarRequests from "./adminCarRequests";
+import adminRepairRequests from "./adminRepairRequests";
+import adminSettings from "./adminSettings";
+import contact from "./contact";
+import moderation from "./moderation";
+import tuning from "./tuning";
+
+export default { common, nav, zones, attributes, home, landing, listing, details, inspection, track, saved, sell, admin, wilayas, adminShell, adminListings, adminInspections, adminMessages, adminCarRequests, adminRepairRequests, adminSettings, contact, moderation, tuning };
